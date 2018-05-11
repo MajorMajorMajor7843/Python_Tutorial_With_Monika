@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Python tutorial with Monika.</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> 
+<script src="http://www.skulpt.org/static/skulpt.min.js"></script> 
+<script src="http://www.skulpt.org/static/skulpt-stdlib.js"></script> 
+
+    <script type="text/javascript">
+var canvas;
+var ctx;
+var monikaBg=new Image();
+monikaBg.src="Just_Monika.png";
+var textBg=new Image();
+textBg.src="ddlc_textbox.png";
+var textIndex=0;
+var text;
+var script;
+var currText=0;
+function begin(){
+	canvas = document.getElementById('canvas');
+	ctx = canvas.getContext('2d');
+	ctx.fillStyle="white";
+	
+	script=[['"Hi there!"'], ['"And welcome to Python tutorial with Monika"'], ['"As you know, I had to learn a lot about programming"'], ['"So I thought I would share my knoweldge with you"'], ['"First lesson, try printing out Just Monika"'], ['"Print out Just Monika by hitting run"'], ['"And submit it so I can know"']];
+	window.setInterval(draw, 15);
+}
+function begin1(){
+canvas = document.getElementById('canvas');
+	ctx = canvas.getContext('2d');
+	ctx.fillStyle="white";
+script = [['good job honey!']];
+window.setInterval(draw,15);
+}
+function begin2(){
+canvas = document.getElementById('canvas');
+	ctx = canvas.getContext('2d');
+	ctx.fillStyle="white";
+script = [['I know you can do it, try again!']];
+window.setInterval(draw,15);
+}
+function mouseClicked(){
+	currText++;
+}
+function draw(){
+	//Draw background elements
+	ctx.drawImage(monikaBg, 0, 0, 1280, 720);
+	ctx.drawImage(textBg, 232, 574, 816, 146);
+	ctx.font="34px Aller_Rg";
+	ctx.strokeStyle="#8d6580";
+	ctx.textAlign="center";
+	ctx.lineWidth = 5
+	ctx.strokeText("Monika", 344, 566);
+	ctx.lineWidth = 1;
+	ctx.fillText("Monika", 344, 566);
+	
+	if(script[currText]){
+		text=script[currText];
+	}
+	
+	//Draw the text
+	ctx.font="24px Aller_Rg";
+	ctx.strokeStyle = 'black';
+	ctx.textAlign="start";
+	for(var a=0; a<text.length; a++){
+		ctx.lineWidth = 2;
+		ctx.strokeText(text[a], 250, 614+(a*30));
+		ctx.lineWidth = 1;
+		ctx.fillText(text[a], 250, 614+(a*30));
+	}
+}
+	</script>
+	<style type="text/css">
+      canvas {
+	    border: 1px solid black;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: auto;
+		margin-bottom: auto;
+	  }
+	
+	textarea {
+color: #B0D1E8;
+background-color: #324876;
+border-width: 1px;
+border-color: #000000;
+border-style: solid;
+}
+    </style>
+  </head>
+  
+<body onload="begin();">
+    <canvas id="canvas" width="1280" height="720" onclick="mouseClicked();"></canvas>
+	
+
+<script type="text/javascript"> 
+// output functions are configurable.  This one just appends some text
+// to a pre element.
+function outf(text) { 
+    var mypre = document.getElementById("output"); 
+    mypre.innerHTML = mypre.innerHTML + text; 
+} 
+function builtinRead(x) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+            throw "File not found: '" + x + "'";
+    return Sk.builtinFiles["files"][x];
+}
+// Here's everything you need to run a python program in skulpt
+// grab the code from your textarea
+// get a reference to your pre element for output
+// configure the output function
+// call Sk.importMainWithBody()
+function runit() { 
+   var prog = document.getElementById("yourcode").value; 
+   var mypre = document.getElementById("output"); 
+   mypre.innerHTML = ''; 
+   Sk.pre = "output";
+   Sk.configure({output:outf, read:builtinRead}); 
+   (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+   var myPromise = Sk.misceval.asyncToPromise(function() {
+       return Sk.importMainWithBody("<stdin>", false, prog, true);
+   });
+   myPromise.then(function(mod) {
+       console.log('success');
+   },
+       function(err) {
+       console.log(err.toString());
+   });
+} 
+function getoutput(){
+var x = document.getElementById("output").innerHTML;
+currText = 0;
+if (new String(x).trim() == new String("Just Monika").trim())
+{
+begin1();
+}
+else {
+begin2();	
+}
+}
+</script> 
+
+<h3>Try This</h3> 
+<form> 
+<textarea id="yourcode" cols="40" rows="10">
+print "Just Monika" 
+</textarea><br /> 
+<button type="button" onclick = "runit();">Run</button> 
+<button type = "button" onclick = "getoutput();">submit</button>
+</form> 
+<pre id="output" ></pre> 
+<!-- If you want turtle graphics include a canvas -->
+<div id="mycanvas"></div> 
+  </body>
+</html>
